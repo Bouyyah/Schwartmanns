@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 
 import { useAddUser } from '../api/mutations';
+import { useSnackbar } from '../hooks/SnackbarHook';
 
 function CreateUserModal({ open, onClose }) {
     
@@ -18,6 +19,7 @@ function CreateUserModal({ open, onClose }) {
   const [password, setPassword] = useState('');
 
   const {mutate} = useAddUser();
+  const { showSnackbar, SnackbarComponent } = useSnackbar();
 
   const handleClose = () => {
     setName('');
@@ -35,20 +37,25 @@ function CreateUserModal({ open, onClose }) {
         "passwordHash": password,
         "type": "user",
     },{
-        onSuccess: (data) => {
-            console.log(data)
-        }
+        onSuccess: () => {
+            showSnackbar("User added successfully","success");
+            handleClose(); 
+        },
+        onError: () => showSnackbar("An error has occured the user is not added","error")
     })
 
-    handleClose(); 
+    
   };
 
   return (
+    <>
+    
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle>
         <strong>Create User</strong>
       </DialogTitle>
       <DialogContent>
+        
         <form>
           <TextField
             fullWidth
@@ -86,6 +93,8 @@ function CreateUserModal({ open, onClose }) {
         </Button>
       </DialogActions>
     </Dialog>
+    {SnackbarComponent}
+    </>
   );
 }
 

@@ -22,10 +22,16 @@ export const useLoginMutation = () => {
 
 export const useChangePasswordMutation = () => {
 
-    return useMutation({mutationFn: async ({ userId, newPassword }) => {
-        const response = await axiosInstance.put(`/users/updatePassword/${userId}`, newPassword);
-        return response.data;
-      }})
+    return useMutation( async ( {userId, newPassword} ) => {
+      console.log(userId, newPassword)
+      return await axiosInstance.put(`/users/updatePassword/${userId}`, `"${newPassword}"`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+         
+      })
 }
 
 export const useAddUser = () => {
@@ -41,9 +47,12 @@ export const useAddUser = () => {
 
 
 export const useDeleteUserMutation = () => {
+    const queryClient = useQueryClient();
 
-    return useMutation({mutationFn: async ( userId) => {
-        const response = await axiosInstance.delete(`/users/${userId}`);
-        return response;
-      }})
+    return useMutation(async ( userId) => {
+      return  await axiosInstance.delete(`/users/${userId}`);
+         
+      },{
+        onSuccess: ()=> {queryClient.invalidateQueries('users');}
+      })
 }
