@@ -16,7 +16,7 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+    localStorage.setItem('userName', 'Ayyoub');
     // await loginMutation.mutate({ email, password });
 
   console.log(e)

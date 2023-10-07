@@ -1,18 +1,12 @@
-import React, { useState } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  MenuItem,
-  Box
-} from "@mui/material";
+import { useEffect, useState } from "react";
+import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useLocation, Link } from "react-router-dom";
 
 const ResponsiveAppBar = () => {
-  const [menuAnchor, setMenuAnchor] = useState(null);
+  const location = useLocation();
+
+  const [menuRoute,setMenuRoute] = useState();
 
   const handleMenuOpen = (event) => {
     setMenuAnchor(event.currentTarget);
@@ -22,11 +16,15 @@ const ResponsiveAppBar = () => {
     setMenuAnchor(null);
   };
 
+  useEffect(()=>{
+    setMenuRoute(location === 'dashboard' ? (<Link to='users'>Manage users</Link>):(<Link to='dashboard'>Dashboard</Link>))
+  },[location])
+
   return (
     <div>
-      <AppBar sx={{backgroundColor: 'white', color:'#4F85C4'}}>
+      <AppBar sx={{ backgroundColor: "white", color: "#4F85C4" }}>
         <Toolbar>
-          <Typography variant='h5' fontWeight={'bold'} sx={{ flexGrow: 1 }}>
+          <Typography variant='h5' fontWeight={"bold"} sx={{ flexGrow: 1 }}>
             SCHWARTMANNS
           </Typography>
           <IconButton
@@ -37,9 +35,12 @@ const ResponsiveAppBar = () => {
             sx={{ display: { xs: "block", sm: "none" } }}>
             <MenuIcon />
           </IconButton>
-          
-          <Box  flexDirection={'row'} gap={2} sx={{ display: { xs: "none", sm: "flex" } }}>
-            <Typography>Manage Users</Typography>
+
+          <Box
+            flexDirection={"row"}
+            gap={2}
+            sx={{ display: { xs: "none", sm: "flex" } }}>
+            <Typography>{menuRoute}</Typography>
             <Typography>Logout</Typography>
           </Box>
         </Toolbar>
