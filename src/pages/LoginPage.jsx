@@ -2,7 +2,7 @@ import  {  useState } from 'react';
 import { TextField, Button, Typography, Container, Link, IconButton, InputAdornment, Card, CardContent,Alert } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-// import { useLoginMutation } from '../api/mutations';
+ import { useLoginMutation } from '../api/mutations';
 
 
 const LoginPage = () => {
@@ -11,13 +11,13 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
 
-//   const loginMutation = useLoginMutation();
+   const loginMutation = useLoginMutation();
   
 
   const handleLogin = async (e) => {
     e.preventDefault();
     localStorage.setItem('userName', 'Ayyoub');
-    // await loginMutation.mutate({ email, password });
+     await loginMutation.mutate({ email, password });
 
   console.log(e)
   };
@@ -90,16 +90,16 @@ const LoginPage = () => {
             </Link>
             <Button
               type="submit"
-              
+              onClick={handleLogin}
               color="primary"
               fullWidth
               sx={{marginTop:'1.5em'}}
-            //   disabled={loginMutation.isLoading}
+               disabled={loginMutation.isLoading}
 
             >
               Login
             </Button>
-            {/* {loginMutation.isError && (
+            {loginMutation.isError && (
             <Alert severity="error" sx={{ marginTop: 2 }}>
               An error occurred: {loginMutation.error.message}
             </Alert>
@@ -108,7 +108,7 @@ const LoginPage = () => {
             <Alert severity="success" sx={{ marginTop: 2 }}>
               Logged in successfully!
             </Alert>
-          )} */}
+          )}
           </form>
         </CardContent>
       </Card>

@@ -7,6 +7,7 @@ const MainContent = styled("main")(({ theme }) => ({
   backgroundColor: "#f5f5f5",
   width: `100vw`,
   height:'100vh',
+ 
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
